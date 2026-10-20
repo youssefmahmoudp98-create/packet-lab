@@ -32,5 +32,5 @@ Interestingly, the Client Hello header claims to be `TLS 1.2` for backwards comp
 The Client Hello (Frame 69) is sent in cleartext. This means a passive attacker on the local network (or the ISP) can read the packet and see exactly which website the client is connecting to via the SNI (`example.com`). While the actual web traffic is encrypted after the handshake, the SNI leaks metadata about the user's browsing habits. Modern privacy tools (like Encrypted Client Hello) aim to fix this gap.
 
 ## 7. Visual Evidence
-*   ![Client Hello](screenshots/tls13-client-hello.png)
-*   ![Server Hello](screenshots/tls13-server-hello.png)
+*   ![Client Hello](../screenshots/tls13-client-hello.png)
+*   ![Server Hello](../screenshots/tls13-server-hello.png)
