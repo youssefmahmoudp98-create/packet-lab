@@ -8,7 +8,7 @@ The goal of this lab is to move beyond theoretical networking and prove how traf
 ## Captures
 Each capture has its own one-page analysis in the `/explanations` folder.
 1. **[DNS Lookup](./explanations/dns-lookup.md):** Tracing the two-leg journey of a `dig` request. The capture shows the query moving from the `dig` process to the local resolver (`systemd-resolved`) over loopback, and then out to the LAN router to reach the internet. *(Completed)*
-2. **TLS 1.3 Handshake:** *(Planned)*
+2. **[TLS 1.3 Handshake](./explanations/tls13-handshake.md):** Tracing the TCP three-way handshake and the TLS encryption negotiation for `example.com`, including SNI extraction and cipher suite selection. *(Completed)*
 3. **HTTP Reverse Proxy:** *(Planned)*
 
 ## Repository Structure
@@ -24,6 +24,6 @@ For every capture in this lab, the workflow is identical:
 
 ## Security Considerations
 Capturing and analyzing raw traffic is foundational for incident response and threat hunting.
-*   **Visibility:** Without packet captures, defenders rely on high-level logs. Captures prove exactly what data left the machine.
-*   **Attack Surface:** DNS is a common exfiltration vector (DNS Tunneling). Understanding the baseline structure of a legitimate DNS query (like the one captured here) is required to detect when an attacker is hiding data inside DNS requests.
-*   **Encryption:** This DNS capture is cleartext UDP. An attacker on the local network (or the ISP) could read these queries. DNS-over-HTTPS (DoH) or DNS-over-TLS (DoT) is required to prevent this.
+*   **Visibility:** Without packet captures, defenders rely on high-level logs. Captures prove exactly what data left the machine and what protocols were used.
+*   **Cleartext Risks (DNS):** Standard DNS uses cleartext UDP. An attacker on the local network (or the ISP) can read the queries, making DNS a prime target for passive sniffing and data exfiltration (DNS Tunneling). DNS-over-HTTPS (DoH) or DNS-over-TLS (DoT) is required to prevent this.
+*   **Metadata Leakage (TLS):** While TLS 1.3 encrypts the actual web traffic, the Client Hello (containing the SNI) is sent in cleartext. This leaks the destination domain to anyone monitoring the wire, even when the payload is secure.
